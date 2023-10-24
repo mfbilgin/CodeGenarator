@@ -2,7 +2,6 @@
 
 public interface IDataAccessService
 {
-    void AddNugetsToProject();
     void GenerateDataAccessFolders();
     void CreateContextFile();
     void CreateRepositoryInterface(string className);
@@ -15,4 +14,7 @@ public interface IDataAccessService
     string GetAbstractPath();
     string GetConcretePath();
     string GetMigrationPath();
+    string GetProjectPath();
+    List<string> GetProjectPackages();
+    List<string> GetProjectReference();
 }

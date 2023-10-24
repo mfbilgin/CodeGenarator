@@ -12,6 +12,8 @@ public class DataAccessManager : IDataAccessService
     private readonly string _projectPath;
 
     private readonly List<string> _packages;
+    private readonly List<string> _projectReference;
+
     public DataAccessManager(string basePath)
     {
         _folderPath = Path.Combine(basePath, "DataAccess");
@@ -26,14 +28,10 @@ public class DataAccessManager : IDataAccessService
             "Microsoft.AspNetCore.Http",
             "Microsoft.AspNetCore.Hosting"
         };
-    }
-    public void AddNugetsToProject()
-    {   
-        if (!File.Exists(_projectPath))
-            return;
-  
-        _packages.ForEach(AddNuget);
-
+        _projectReference = new List<string>()
+        {
+            "Entities"
+        };
     }
 
     public void GenerateDataAccessFolders()
@@ -59,10 +57,10 @@ public class DataAccessManager : IDataAccessService
             Console.WriteLine($"\"{contextPath}\" folder created.");
         }
 
-        // Console.WriteLine("Server Name : ");
-        // Console.WriteLine("Database Name : ");
-        
-        var connectionString = $@"Server=MFBILGIN\MFBILGIN;Database=TestDb;Trusted_Connection=true\";
+        Console.WriteLine("Server Name : ");
+        Console.WriteLine("Database Name : ");
+
+        var connectionString = $"\"Server={Console.ReadLine()!};Database={Console.ReadLine()!};Trusted_Connection=true\"";
 
         using var writer = new StreamWriter(contextPath + "\\DatabaseContext.cs");
         writer.WriteLine("using Microsoft.EntityFrameworkCore;");
@@ -248,14 +246,18 @@ public class DataAccessManager : IDataAccessService
         return _migrationPath;
     }
 
-    private void AddNuget(string packageName)
+    public string GetProjectPath()
     {
-        var process = new Process();
-        process.StartInfo.FileName = "dotnet";
-        process.StartInfo.Arguments = $"add {_projectPath} package {packageName}"; 
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.Start();
-        Console.WriteLine(process.StandardOutput.ReadToEnd());
+        return _projectPath;
+    }
+
+    public List<string> GetProjectPackages()
+    {
+        return _packages;
+    }
+
+    public List<string> GetProjectReference()
+    {
+        return _projectReference;
     }
 }

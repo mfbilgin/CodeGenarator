@@ -6,5 +6,8 @@ public interface IEntityService
     void GenerateEntityFolders();
     string GetConcretePath();
     string GetDtoPath();
+    string GetProjectPath();
     List<string?> GetEntityNames();
+    List<string> GetProjectPackages();
+    List<string> GetProjectReference();
 }

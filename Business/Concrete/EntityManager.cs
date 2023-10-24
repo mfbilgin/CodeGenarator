@@ -1,20 +1,29 @@
-﻿using System.Diagnostics;
-using Business.Abstract;
+﻿using Business.Abstract;
 
 namespace Business.Concrete;
 
 public class EntityManager : IEntityService
 {
-    private readonly string _basePath;
     private readonly string _concretePath;
     private readonly string _dtoPath;
+    private readonly string _projectPath;
+    private readonly List<string> _packages;
+    private readonly List<string> _projectReference;
 
     public EntityManager(string basePath)
     {
-        _basePath = basePath;
         var folderPath = Path.Combine(basePath, "Entities");
+        _projectPath = Path.Combine(folderPath, "Entities.csproj");
         _concretePath = Path.Combine(folderPath, "Concrete");
         _dtoPath = Path.Combine(folderPath, "DTOs");
+        _packages = new List<string>()
+        {
+            "Microsoft.AspNetCore.Hosting",
+            "Microsoft.AspNetCore.Http"
+        };
+        _projectReference = new List<string>()
+        {
+        };
     }
 
     public void CreateEntityClass(string entityName, IEnumerable<string> fields)
@@ -61,8 +70,23 @@ public class EntityManager : IEntityService
         return _dtoPath;
     }
 
+    public string GetProjectPath()
+    {
+        return _projectPath;
+    }
+
     public List<string?> GetEntityNames()
     {
         return Directory.GetFiles(_concretePath, "*.cs").Select(Path.GetFileNameWithoutExtension).ToList();
+    }
+
+    public List<string> GetProjectPackages()
+    {
+        return _packages;
+    }
+
+    public List<string> GetProjectReference()
+    {
+        return _projectReference;
     }
 }

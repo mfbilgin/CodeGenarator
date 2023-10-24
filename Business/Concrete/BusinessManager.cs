@@ -9,6 +9,7 @@ public class BusinessManager : IBusinessService
     private readonly string _dependecyResolversPath;
     private readonly string _projectPath;
     private readonly List<string> _packages;
+    private readonly List<string> _projectReference;
     public BusinessManager(string basePath)
     {
         basePath = Path.Combine(basePath, "Business");
@@ -17,17 +18,20 @@ public class BusinessManager : IBusinessService
         _dependecyResolversPath = Path.Combine(basePath, "DependencyResolvers");
         _projectPath = Path.Combine(basePath,"Business.csproj");
         _packages = new List<string>()
-        {
-            
+        {   
+            "Autofac",
+            "Autofac.Extensions.DependencyInjection",
+            "Autofac.Extras.DynamicProxy",
+            "FluentValidation",
+            "Microsoft.AspNetCore.Http.Abstractions",
+            "Microsoft.AspNetCore.Http.Features",
+            "Microsoft.Extensions.DependencyInjection"
         };
-    }
-
-    public void AddNugetToProject()
-    {
-        if (!File.Exists(_projectPath))
-            return;
-  
-        _packages.ForEach(AddNuget);
+        _projectReference = new List<string>()
+        {
+            "DataAccess",
+            "Entities",
+        };
     }
 
     public void GenerateBusinessFolders()
@@ -190,8 +194,23 @@ public class BusinessManager : IBusinessService
         return _concretePath;
     }
 
+    public string GetProjectPath()
+    {
+        return _projectPath;
+    }
+
     public string GetDependencyResolversPath()
     {
         return _dependecyResolversPath;
+    }
+
+    public List<string> GetProjectPackages()
+    {
+        return _packages;
+    }
+
+    public List<string> GetProjectReference()
+    {
+        return _projectReference;
     }
 }

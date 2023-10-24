@@ -8,12 +8,29 @@ public class ApiManager : IApiService
     private readonly string _controllersPath;
     private readonly string _basePath;
     private readonly string _folderPath;
+    private readonly string _projectPath;
+    private readonly List<string> _packages;
+    private readonly List<string> _projectReference;
 
     public ApiManager(string basePath)
     {
         _basePath = basePath;
         _folderPath = Path.Combine(_basePath, "WebAPI");
         _controllersPath = Path.Combine(_folderPath, "Controllers");
+        _projectPath = Path.Combine(_folderPath, "WebAPI.csproj");
+        _packages = new List<string>()
+        {
+            "Autofac.Extensions.DependencyInjection",
+            "Microsoft.AspNetCore.Authentication.JwtBearer",
+            "Microsoft.EntityFrameworkCore.Tools",
+            "Swashbuckle.AspNetCore",
+        };
+        _projectReference = new List<string>()
+        {
+            "Business",
+            "DataAccess",
+            "Entities",
+        };
     }
 
     public void CreateApiProject(string solutionVersion)
@@ -175,5 +192,20 @@ public class ApiManager : IApiService
     public string GetProgramCsPath()
     {
         return Path.Combine(_folderPath, "Program.cs");
+    }
+
+    public string GetProjectPath()
+    {
+        return _projectPath;
+    }
+
+    public List<string> GetProjectPackages()
+    {
+        return _packages;
+    }
+
+    public List<string> GetProjectReference()
+    {
+        return _projectReference;
     }
 }

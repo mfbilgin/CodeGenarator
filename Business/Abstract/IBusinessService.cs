@@ -2,7 +2,7 @@
 
 public interface IBusinessService
 {
-    void AddNugetToProject();
+    
     void GenerateBusinessFolders();
     void CreateBaseService();
     void CreateEntityService(string className);
@@ -11,5 +11,8 @@ public interface IBusinessService
     void AddEntityToBusinessModule(List<string?> entities);
     string GetAbstractPath();
     string GetConcretePath();
+    string GetProjectPath();
     string GetDependencyResolversPath();
+    List<string> GetProjectPackages();
+    List<string> GetProjectReference();
 }

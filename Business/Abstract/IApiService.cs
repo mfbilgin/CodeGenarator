@@ -8,4 +8,8 @@ public interface IApiService
     void CreateProgramCsFile(List<string?> entities);
     string GetControllerPath();
     string GetProgramCsPath();
-}
+    string GetProjectPath();
+    List<string> GetProjectPackages();
+    List<string> GetProjectReference();
+    
+} 
